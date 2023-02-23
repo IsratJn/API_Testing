@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "074b37d1-3a52-4022-85ab-d6882bc944fc",
+		"name": "GoRest API Chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23719455"
+	},
+	"item": [
+		{
+			"name": "Create USer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// var random = Math.random.toString(36).substring(2);\r",
+							"\r",
+							"// var username = \"israt\" + random;\r",
+							"// var useremail = \"israt\" + random + \"@gmail.com\";\r",
+							"\r",
+							"pm.environment.set(\"name_env\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+							"pm.environment.set(\"email_env\", pm.variables.replaceIn('{{$randomEmail}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var JsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"userid_env\", JsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t   \"name\": \"{{name_env}}\",\r\n\t   \"gender\": \"female\",\r\n\t   \"email\": \"{{email_env}}\",\r\n\t   \"status\":\"active\"\r\n\t }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}//public/v2/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"",
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t   \"name\": \"Labiba\",\r\n\t   \"gender\": \"female\",\r\n\t   \"email\": \"labiba1@hotmail.com\",\r\n\t   \"status\":\"active\"\r\n\t }"
+				},
+				"url": {
+					"raw": "{{host}}//public/v2/users/{{userid_env}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"",
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t   \"name\": \"Israt Jahan\",\r\n\t   \"gender\": \"female\",\r\n\t   \"email\": \"israt13@hotmail.com\",\r\n\t   \"status\":\"active\"\r\n\t }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/public/v2/users/{{userid_env}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userid_env}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User Details",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t   \"name\": \"Labiba\",\r\n\t   \"gender\": \"female\",\r\n\t   \"email\": \"labiba1@hotmail.com\",\r\n\t   \"status\":\"active\"\r\n\t }"
+				},
+				"url": {
+					"raw": "{{host}}/public/v2/users/721",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"721"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "dcaaa7a555b4cb66b84fecc2cb32166ecb9669be8fcae132d055c5b6e3dff052",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://gorest.co.in/",
+			"type": "string"
+		}
+	]
+}
