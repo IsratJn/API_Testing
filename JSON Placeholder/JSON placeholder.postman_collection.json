@@ -1,0 +1,505 @@
+{
+	"info": {
+		"_postman_id": "8da2c385-5931-404e-906e-d26e30ef34b3",
+		"name": "JSON placeholder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23719455"
+	},
+	"item": [
+		{
+			"name": "Getting a resource",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"url\",\"https://jsonplaceholder.typicode.com/posts\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has OK\", () => {\r",
+							"  pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Connection header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Connection\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json; charset=utf-8\", () => {\r",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", () => {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(100);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listing all resources",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData).to.be.an(\"array\");\r",
+							"  pm.expect(jsonData[0].userId).to.be.a(\"number\");\r",
+							"  pm.expect(jsonData[0].id).to.be.a(\"number\");\r",
+							"  pm.expect(jsonData[0].title).to.be.an(\"string\");\r",
+							"   pm.expect(jsonData[0].body).to.be.an(\"string\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating a resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", () => {\r",
+							"  pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Matching json field values\" , ()=>{\r",
+							"     pm.expect(jsonData.title).to.eql(\"api\");\r",
+							"     pm.expect(jsonData.body).to.eql(\"test\");\r",
+							"      pm.expect(jsonData.userId).to.eql(\"98\");\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"api\",\r\n    \"body\": \"test\",\r\n    \"userId\": \"98\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updating a resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Matching json field values\" , ()=>{\r",
+							"     pm.expect(jsonData.title).to.eql(\"manual\");\r",
+							"    \r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"manual\",\r\n    \"body\": \"test\",\r\n    \"userId\": \"98\",\r\n    \"id\": 101\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patching a resource",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"My api testing\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filtering resources",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"console.log(typeof jsonData);\r",
+							"\r",
+							"len = Object.keys(jsonData).length;\r",
+							"\r",
+							"let i;\r",
+							"\r",
+							"pm.test(\"UserId is 3\", () => {\r",
+							"\r",
+							"  for(i=0;i<len;i++){\r",
+							"      pm.expect(jsonData[i].userId).to.eql(3)\r",
+							"  }\r",
+							"    \r",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}?userId=3",
+					"host": [
+						"{{url}}"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listing nested resources",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"    \"$schema\": \"https://json-schema.org/draft/2019-09/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"array\",\r",
+							"    \"default\": [],\r",
+							"    \"title\": \"Root Schema\",\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\",\r",
+							"        \"title\": \"A Schema\",\r",
+							"        \"required\": [\r",
+							"            \"postId\",\r",
+							"            \"id\",\r",
+							"            \"name\",\r",
+							"            \"email\",\r",
+							"            \"body\"\r",
+							"        ],\r",
+							"        \"properties\": {\r",
+							"            \"postId\": {\r",
+							"                \"type\": \"integer\",\r",
+							"                \"title\": \"The postId Schema\",\r",
+							"                \"examples\": [\r",
+							"                    1\r",
+							"                ]\r",
+							"            },\r",
+							"            \"id\": {\r",
+							"                \"type\": \"integer\",\r",
+							"                \"title\": \"The id Schema\",\r",
+							"                \"examples\": [\r",
+							"                    1,\r",
+							"                    2,\r",
+							"                    3,\r",
+							"                    4,\r",
+							"                    5\r",
+							"                ]\r",
+							"            },\r",
+							"            \"name\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"title\": \"The name Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"id labore ex et quam laborum\",\r",
+							"                    \"quo vero reiciendis velit similique earum\",\r",
+							"                    \"odio adipisci rerum aut animi\",\r",
+							"                    \"alias odio sit\",\r",
+							"                    \"vero eaque aliquid doloribus et culpa\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"email\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"title\": \"The email Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"Eliseo@gardner.biz\",\r",
+							"                    \"Jayne_Kuhic@sydney.com\",\r",
+							"                    \"Nikita@garfield.biz\",\r",
+							"                    \"Lew@alysha.tv\",\r",
+							"                    \"Hayden@althea.biz\"\r",
+							"                ]\r",
+							"            },\r",
+							"            \"body\": {\r",
+							"                \"type\": \"string\",\r",
+							"                \"title\": \"The body Schema\",\r",
+							"                \"examples\": [\r",
+							"                    \"laudantium enim quasi est quidem magnam voluptate ipsam eos\\ntempora quo necessitatibus\\ndolor quam autem quasi\\nreiciendis et nam sapiente accusantium\",\r",
+							"                    \"est natus enim nihil est dolore omnis voluptatem numquam\\net omnis occaecati quod ullam at\\nvoluptatem error expedita pariatur\\nnihil sint nostrum voluptatem reiciendis et\",\r",
+							"                    \"quia molestiae reprehenderit quasi aspernatur\\naut expedita occaecati aliquam eveniet laudantium\\nomnis quibusdam delectus saepe quia accusamus maiores nam est\\ncum et ducimus et vero voluptates excepturi deleniti ratione\",\r",
+							"                    \"non et atque\\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\\nquia voluptas consequuntur itaque dolor\\net qui rerum deleniti ut occaecati\",\r",
+							"                    \"harum non quasi et ratione\\ntempore iure ex voluptates in ratione\\nharum architecto fugit inventore cupiditate\\nvoluptates magni quo et\"\r",
+							"                ]\r",
+							"            }\r",
+							"        },\r",
+							"        \"examples\": [{\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 1,\r",
+							"            \"name\": \"id labore ex et quam laborum\",\r",
+							"            \"email\": \"Eliseo@gardner.biz\",\r",
+							"            \"body\": \"laudantium enim quasi est quidem magnam voluptate ipsam eos\\ntempora quo necessitatibus\\ndolor quam autem quasi\\nreiciendis et nam sapiente accusantium\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 2,\r",
+							"            \"name\": \"quo vero reiciendis velit similique earum\",\r",
+							"            \"email\": \"Jayne_Kuhic@sydney.com\",\r",
+							"            \"body\": \"est natus enim nihil est dolore omnis voluptatem numquam\\net omnis occaecati quod ullam at\\nvoluptatem error expedita pariatur\\nnihil sint nostrum voluptatem reiciendis et\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 3,\r",
+							"            \"name\": \"odio adipisci rerum aut animi\",\r",
+							"            \"email\": \"Nikita@garfield.biz\",\r",
+							"            \"body\": \"quia molestiae reprehenderit quasi aspernatur\\naut expedita occaecati aliquam eveniet laudantium\\nomnis quibusdam delectus saepe quia accusamus maiores nam est\\ncum et ducimus et vero voluptates excepturi deleniti ratione\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 4,\r",
+							"            \"name\": \"alias odio sit\",\r",
+							"            \"email\": \"Lew@alysha.tv\",\r",
+							"            \"body\": \"non et atque\\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\\nquia voluptas consequuntur itaque dolor\\net qui rerum deleniti ut occaecati\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 5,\r",
+							"            \"name\": \"vero eaque aliquid doloribus et culpa\",\r",
+							"            \"email\": \"Hayden@althea.biz\",\r",
+							"            \"body\": \"harum non quasi et ratione\\ntempore iure ex voluptates in ratione\\nharum architecto fugit inventore cupiditate\\nvoluptates magni quo et\"\r",
+							"        }]\r",
+							"    },\r",
+							"    \"examples\": [\r",
+							"        [{\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 1,\r",
+							"            \"name\": \"id labore ex et quam laborum\",\r",
+							"            \"email\": \"Eliseo@gardner.biz\",\r",
+							"            \"body\": \"laudantium enim quasi est quidem magnam voluptate ipsam eos\\ntempora quo necessitatibus\\ndolor quam autem quasi\\nreiciendis et nam sapiente accusantium\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 2,\r",
+							"            \"name\": \"quo vero reiciendis velit similique earum\",\r",
+							"            \"email\": \"Jayne_Kuhic@sydney.com\",\r",
+							"            \"body\": \"est natus enim nihil est dolore omnis voluptatem numquam\\net omnis occaecati quod ullam at\\nvoluptatem error expedita pariatur\\nnihil sint nostrum voluptatem reiciendis et\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 3,\r",
+							"            \"name\": \"odio adipisci rerum aut animi\",\r",
+							"            \"email\": \"Nikita@garfield.biz\",\r",
+							"            \"body\": \"quia molestiae reprehenderit quasi aspernatur\\naut expedita occaecati aliquam eveniet laudantium\\nomnis quibusdam delectus saepe quia accusamus maiores nam est\\ncum et ducimus et vero voluptates excepturi deleniti ratione\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 4,\r",
+							"            \"name\": \"alias odio sit\",\r",
+							"            \"email\": \"Lew@alysha.tv\",\r",
+							"            \"body\": \"non et atque\\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\\nquia voluptas consequuntur itaque dolor\\net qui rerum deleniti ut occaecati\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"postId\": 1,\r",
+							"            \"id\": 5,\r",
+							"            \"name\": \"vero eaque aliquid doloribus et culpa\",\r",
+							"            \"email\": \"Hayden@althea.biz\",\r",
+							"            \"body\": \"harum non quasi et ratione\\ntempore iure ex voluptates in ratione\\nharum architecto fugit inventore cupiditate\\nvoluptates magni quo et\"\r",
+							"        }]\r",
+							"    ]\r",
+							"}\r",
+							"\r",
+							"var jsonResponse = pm.response.json();\r",
+							"pm.test('Schema is valid', function() {\r",
+							"  pm.expect(tv4.validate(jsonResponse, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/comments",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting a resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Testing response body is empty\", () => {\r",
+							"  pm.expect(jsonData).to.be.empty;\r",
+							"  \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		}
+	]
+}
