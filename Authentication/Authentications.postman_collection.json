@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "7cc6e775-53de-4a38-bbcb-96faa08af263",
+		"name": "Authentications",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23719455"
+	},
+	"item": [
+		{
+			"name": "OAuth2.0-Github App",
+			"item": [
+				{
+					"name": "Request a users Github Identity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://github.com/login/oauth/authorize?client_id=742767bb463feece98dd",
+							"protocol": "https",
+							"host": [
+								"github",
+								"com"
+							],
+							"path": [
+								"login",
+								"oauth",
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "742767bb463feece98dd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users are redirected back to your site by Github",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://github.com/login/oauth/access_token?client_id=742767bb463feece98dd&client_secret=b6f55ad2ce7bf449ec75afba72c249057ed96931&code=a75e0f493bb67577555a",
+							"protocol": "https",
+							"host": [
+								"github",
+								"com"
+							],
+							"path": [
+								"login",
+								"oauth",
+								"access_token"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "742767bb463feece98dd"
+								},
+								{
+									"key": "client_secret",
+									"value": "b6f55ad2ce7bf449ec75afba72c249057ed96931"
+								},
+								{
+									"key": "code",
+									"value": "a75e0f493bb67577555a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Use the access token to access the API List users",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/users/mojombo",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"users",
+								"mojombo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Basic Authentication",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "postman",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/basic-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"basic-auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Basic Auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://the-internet.herokuapp.com/basic_auth",
+					"protocol": "https",
+					"host": [
+						"the-internet",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"basic_auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bearer Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/user/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
