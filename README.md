@@ -2,7 +2,7 @@ This repository contains my API Testing learning journey with postman. I have ad
 
 Demo Websites:
 
-1.petstore.swagger.io
+1.https://petstore.swagger.io/
 
 2.https://reqres.in/
 
